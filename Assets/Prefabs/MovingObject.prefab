@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 171373236062781986}
   - component: {fileID: 171373236062781996}
   - component: {fileID: 171373236062781987}
+  - component: {fileID: 8735567428151014008}
+  - component: {fileID: -7825171853318021033}
   m_Layer: 6
   m_Name: MovingObject
   m_TagString: Untagged
@@ -125,6 +127,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destination: {x: 0, y: 0, z: 0}
   speed: 5
+--- !u!114 &8735567428151014008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171373236062781984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f533188b8f7f1834c98329e0172cf3c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7825171853318021033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171373236062781984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3b003919f88ce4d83becc4c90904df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7069690078705905112
 GameObject:
   m_ObjectHideFlags: 0

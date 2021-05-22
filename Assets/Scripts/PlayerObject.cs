@@ -1,37 +1,29 @@
 using UnityEngine;
 
-public class PlayerObject : SelectableObject, ISelectableObject
+public class PlayerObject : SelectableObject, ISelectableObject, ILivingObject
 {
-    public void SetParent(Transform parent)
+    public void TakeDamage()
+    {
+        GameController.instance.Reload();
+    }
+
+    public void SetParent(Transform parent, bool isKeepParentTransform = false)
     {
         StopCoroutine("FixPosition");
 
         transform.SetParent(parent);
-        parentObject = null;
+        if (isKeepParentTransform == false)
+            parentObject = null;
 
         StartCoroutine("FixPosition");
         StartCoroutine("FixRotation");
     }
 
-    //private void Update()
-    //{
-    //    Vector3 rotation = transform.InverseTransformVector(transform.rotation.eulerAngles);
-    //
-    //    if (rotation != Vector3.zero)
-    //    {
-    //        float angle = (rotation.z + 90 * GetDir().x) * Mathf.Deg2Rad;
-    //        Vector3 newDir = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
-    //
-    //        Debug.Log(newDir);
-    //        Debug.DrawLine(transform.position, transform.position + newDir);
-    //    }
-    //}
-
     public Vector3 GetDir()
     {
         if (transform.parent != null)
         {
-            return (transform.parent.GetComponent<ISelectableObject>().GetDir()).normalized;
+            return transform.parent.GetComponent<ISelectableObject>().GetDir().normalized;
         }
 
         return Vector3.zero;
@@ -41,7 +33,7 @@ public class PlayerObject : SelectableObject, ISelectableObject
     {
         if (transform.parent != null)
         {
-            return (transform.parent.GetComponent<ISelectableObject>().GetRotDir()).normalized;
+            return transform.parent.GetComponent<ISelectableObject>().GetRotDir().normalized;
         }
 
         return Vector3.zero;

@@ -22,16 +22,21 @@ public class SelectableObject : MonoBehaviour
             parentObject = transform.parent.GetComponent<ISelectableObject>();
             parentTransform = transform.parent;
 
-            if (CheckWall(parentObject.GetDir()))
+            if (CheckWall(parentObject.GetDir() * 0.4f))
             {
-                GetComponent<ISelectableObject>().SetParent(null);
+                GetComponent<ISelectableObject>().SetParent(null, true);
             }
+
+            //if (CheckWall(parentObject.GetDir() * 0.2f))
+            //{
+            //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //}
         }
         else if (parentObject != null)
         {
             if (CheckWall(parentObject.GetDir()) == false)
             {
-                GetComponent<ISelectableObject>().SetParent(parentTransform);
+                GetComponent<ISelectableObject>().SetParent(parentTransform, true);
             }
         }
     }
@@ -39,14 +44,14 @@ public class SelectableObject : MonoBehaviour
     public bool CheckWall(Vector3 dir)
     {
         Vector3 rotation = transform.InverseTransformVector(transform.rotation.eulerAngles);
-        
+
         if (rotation != Vector3.zero && parentObject != null)
         {
             float angle = (rotation.z + 90 * parentObject.GetRotDir().x) * Mathf.Deg2Rad;
             dir = (dir + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0)).normalized;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1f, 1 << LayerMask.NameToLayer("Wall"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dir.magnitude, 1 << LayerMask.NameToLayer("Wall"));
 
         Debug.DrawLine(transform.position, transform.position + dir);
 

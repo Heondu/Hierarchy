@@ -20,11 +20,13 @@ public class MovingObjecct : SelectableObject, ISelectableObject
         StartCoroutine("Move");
     }
 
-    public void SetParent(Transform parent)
+    public void SetParent(Transform parent, bool isKeepParentTransform = false)
     {
         StopCoroutine("FixPosition");
 
         transform.SetParent(parent);
+        if (isKeepParentTransform == false)
+            parentObject = null;
 
         currentPos = Vector3Int.RoundToInt(transform.localPosition);
 
@@ -46,7 +48,7 @@ public class MovingObjecct : SelectableObject, ISelectableObject
     {
         if (transform.parent != null)
         {
-            return (transform.parent.GetComponent<ISelectableObject>().GetRotDir()).normalized;
+            return transform.parent.GetComponent<ISelectableObject>().GetRotDir().normalized;
         }
 
         return Vector3.zero;
@@ -56,29 +58,36 @@ public class MovingObjecct : SelectableObject, ISelectableObject
     {
         while (true)
         {
-            int index = 0;
-
-            dir = destination.normalized;
-            for ( ; index < distance; index++)
+            if (GameController.instance.IsStop == false)
             {
-                if (CheckWall(dir)) break;
+                int index = 0;
 
-                yield return StartCoroutine(MoveTo(Vector3.zero, dir));
+                dir = destination.normalized;
+                for (; index < distance; index++)
+                {
+                    if (CheckWall(dir)) break;
+
+                    yield return StartCoroutine(MoveTo(Vector3.zero, dir));
+                }
+
+                dir = Vector3.zero;
+                yield return new WaitForSeconds(1f);
+
+                dir = -destination.normalized;
+                for (; index > 0; index--)
+                {
+                    if (CheckWall(dir)) break;
+
+                    yield return StartCoroutine(MoveTo(Vector3.zero, dir));
+                }
+
+                dir = Vector3.zero;
+                yield return new WaitForSeconds(1f);
             }
-
-            dir = Vector3.zero;
-            yield return new WaitForSeconds(1f);
-
-            dir = -destination.normalized;
-            for ( ; index > 0; index--)
+            else
             {
-                if (CheckWall(dir)) break;
-
-                yield return StartCoroutine(MoveTo(Vector3.zero, dir));
+                yield return null;
             }
-
-            dir = Vector3.zero;
-            yield return new WaitForSeconds(1f);
         }
     }
 
