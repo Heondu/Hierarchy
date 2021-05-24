@@ -11,7 +11,7 @@ public class EnemyObject : SelectableObject, ISelectableObject, ILivingObject
     {
         if (collision.CompareTag("Player"))
         {
-            GameController.instance.Reload();
+            GameController.instance.Restart();
         }
     }
 

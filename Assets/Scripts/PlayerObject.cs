@@ -4,7 +4,7 @@ public class PlayerObject : SelectableObject, ISelectableObject, ILivingObject
 {
     public void TakeDamage()
     {
-        GameController.instance.Reload();
+        GameController.instance.Restart();
     }
 
     public void SetParent(Transform parent, bool isKeepParentTransform = false)

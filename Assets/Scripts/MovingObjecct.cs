@@ -58,36 +58,29 @@ public class MovingObjecct : SelectableObject, ISelectableObject
     {
         while (true)
         {
-            if (GameController.instance.IsStop == false)
+            int index = 0;
+
+            dir = destination.normalized;
+            for (; index < distance; index++)
             {
-                int index = 0;
+                if (CheckWall(dir)) break;
 
-                dir = destination.normalized;
-                for (; index < distance; index++)
-                {
-                    if (CheckWall(dir)) break;
-
-                    yield return StartCoroutine(MoveTo(Vector3.zero, dir));
-                }
-
-                dir = Vector3.zero;
-                yield return new WaitForSeconds(1f);
-
-                dir = -destination.normalized;
-                for (; index > 0; index--)
-                {
-                    if (CheckWall(dir)) break;
-
-                    yield return StartCoroutine(MoveTo(Vector3.zero, dir));
-                }
-
-                dir = Vector3.zero;
-                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(MoveTo(Vector3.zero, dir));
             }
-            else
+
+            dir = Vector3.zero;
+            yield return new WaitForSeconds(1f);
+
+            dir = -destination.normalized;
+            for (; index > 0; index--)
             {
-                yield return null;
+                if (CheckWall(dir)) break;
+
+                yield return StartCoroutine(MoveTo(Vector3.zero, dir));
             }
+
+            dir = Vector3.zero;
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -96,10 +89,13 @@ public class MovingObjecct : SelectableObject, ISelectableObject
         float percent = 0;
         while (percent < 1)
         {
-            percent += Time.deltaTime * speed;
+            if (GameController.instance.IsStop == false)
+            {
+                percent += Time.deltaTime * speed;
 
-            currentMovePos = Vector3.Lerp(start, end, percent);
-            transform.localPosition = currentPos + currentMovePos;
+                currentMovePos = Vector3.Lerp(start, end, percent);
+                transform.localPosition = currentPos + currentMovePos;
+            }
 
             yield return null;
         }

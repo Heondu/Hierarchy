@@ -5,18 +5,40 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    private SelectableObject selectObject = null;
+    public SelectableObject selectObject { get; private set; } = null;
     private SelectableObject overlapObject = null;
+
+    [SerializeField]
+    private GameObject playImage;
+    [SerializeField]
+    private GameObject pauseImage;
 
     private LayerMask layerMask;
 
     private bool isStop = true;
     public bool IsStop => isStop;
+    private bool isClear = false;
+    public bool IsClear
+    {
+        get => isClear;
+
+        set
+        {
+            isClear = value;
+            if (value == true)
+            {
+                Stop(true);
+                StageDataManager.instance.Clear();
+            }
+        }
+    }
 
     private void Awake()
     {
         if (instance == false) instance = this;
         else Destroy(gameObject);
+
+        Stop(true);
     }
 
     private void Start()
@@ -103,16 +125,16 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Reload();
+            Restart();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isClear == false && Input.GetKeyDown(KeyCode.Space))
         {
-            isStop = !isStop;
+            Stop(!isStop);
         }
     }
 
-    public void Reload()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -120,5 +142,22 @@ public class GameController : MonoBehaviour
     public void LoadScene(string name)
     {
         SceneManager.LoadScene(name);
+    }
+
+    public void Stop(bool value)
+    {
+        isStop = value;
+        if (value)
+        {
+            //Time.timeScale = 0;
+            pauseImage.SetActive(false);
+            playImage.SetActive(true);
+        }
+        else
+        {
+            //Time.timeScale = 1;
+            playImage.SetActive(false);
+            pauseImage.SetActive(true);
+        }
     }
 }

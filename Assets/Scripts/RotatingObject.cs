@@ -57,49 +57,48 @@ public class RotatingObject : SelectableObject, ISelectableObject
     {
         while (true)
         {
-            if (GameController.instance.IsStop == false)
+            if (repeat)
             {
-                if (repeat)
-                {
-                    transform.Rotate(new Vector3(0, 0, sign) * speed * Time.deltaTime, Space.Self);
+                transform.Rotate(new Vector3(0, 0, sign) * speed * Time.deltaTime, Space.Self);
 
-                    yield return null;
-                }
-                else
+                yield return null;
+            }
+            else
+            {
+                dir = new Vector3(-sign, 0, 0).normalized;
+                float current = 0;
+                while (current < Mathf.Abs(endAngle - startAngle))
                 {
-                    dir = new Vector3(-sign, 0, 0).normalized;
-                    float current = 0;
-                    while (current < Mathf.Abs(endAngle - startAngle))
+                    if (GameController.instance.IsStop == false)
                     {
                         current += 1 * speed * Time.deltaTime;
 
                         transform.Rotate(new Vector3(0, 0, sign) * speed * Time.deltaTime, Space.Self);
-
-                        yield return null;
                     }
 
-                    dir = Vector3.zero;
-                    StartCoroutine("FixRotation");
-                    yield return new WaitForSeconds(1f);
+                    yield return null;
+                }
 
-                    dir = new Vector3(sign, 0, 0).normalized;
-                    while (current > 0)
+                dir = Vector3.zero;
+                StartCoroutine("FixRotation");
+                yield return new WaitForSeconds(1f);
+
+                dir = new Vector3(sign, 0, 0).normalized;
+                while (current > 0)
+                {
+                    if (GameController.instance.IsStop == false)
                     {
                         current -= 1 * speed * Time.deltaTime;
 
                         transform.Rotate(new Vector3(0, 0, -sign) * speed * Time.deltaTime, Space.Self);
-
-                        yield return null;
                     }
 
-                    dir = Vector3.zero;
-                    StartCoroutine("FixRotation");
-                    yield return new WaitForSeconds(1f);
+                    yield return null;
                 }
-            }
-            else
-            {
-                yield return null;
+
+                dir = Vector3.zero;
+                StartCoroutine("FixRotation");
+                yield return new WaitForSeconds(1f);
             }
         }
     }
