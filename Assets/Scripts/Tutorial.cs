@@ -19,8 +19,8 @@ public class Tutorial : MonoBehaviour
         if (selectFlag == false && GameController.instance.selectObject != null)
         {
             selectFlag = true;
-            text.text = "노란색 오브젝트를 클릭하고 파란색 오브젝트를 클릭해보세요.\n" +
-                        "잘못 선택했을 경우 우클릭으로 해제할 수 있습니다.";
+            text.text = "먼저 노란색 오브젝트를 클릭하고 파란색 오브젝트를 클릭해보세요.\n" +
+                        "자식 오브젝트를 우클림함으로써 부모-자식 관계를 해제할 수 있고 잘못 선택했을 경우 우클릭으로 해제할 수 있습니다.";
         }
         else if (startFlag == false && FindObjectOfType<PlayerObject>().transform.parent != null)
         {

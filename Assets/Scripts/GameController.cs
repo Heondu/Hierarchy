@@ -12,6 +12,10 @@ public class GameController : MonoBehaviour
     private GameObject playImage;
     [SerializeField]
     private GameObject pauseImage;
+    [SerializeField]
+    private GameObject clearUI;
+
+    private ExitObject exit;
 
     private LayerMask layerMask;
 
@@ -44,6 +48,9 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         layerMask = 1 << LayerMask.NameToLayer("SelectableObject");
+
+        exit = FindObjectOfType<ExitObject>();
+        exit.onClear.AddListener(OnClear);
     }
 
     private void Update()
@@ -159,5 +166,15 @@ public class GameController : MonoBehaviour
             playImage.SetActive(false);
             pauseImage.SetActive(true);
         }
+    }
+
+    private void OnClear()
+    {
+        clearUI.SetActive(true);
+    }
+
+    public void LoadNextStage()
+    {
+        SceneManager.LoadScene(exit.GetNextSceneName());
     }
 }

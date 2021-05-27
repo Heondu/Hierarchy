@@ -1,20 +1,32 @@
 {
     "stageDatas": [
         {
-            "sceneName": "Stage002",
-            "isClear": false
-        },
-        {
             "sceneName": "Stage001",
             "isClear": true
         },
         {
+            "sceneName": "Stage002",
+            "isClear": true
+        },
+        {
+            "sceneName": "Stage006",
+            "isClear": true
+        },
+        {
+            "sceneName": "Stage005",
+            "isClear": true
+        },
+        {
             "sceneName": "Stage003",
-            "isClear": false
+            "isClear": true
         },
         {
             "sceneName": "Stage004",
-            "isClear": false
+            "isClear": true
+        },
+        {
+            "sceneName": "Stage007",
+            "isClear": true
         }
     ]
 }

@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StageController : MonoBehaviour
 {
+    private Image image;
+    [SerializeField]
+    private Color clearColor = new Color(255f / 255, 255f / 255, 128f / 255);
     [SerializeField]
     private TextMeshProUGUI stageText;
     [SerializeField]
@@ -18,6 +21,7 @@ public class StageController : MonoBehaviour
 
     private void Awake()
     {
+        image = GetComponent<Image>();
         button = GetComponent<Button>();
     }
 
@@ -48,6 +52,18 @@ public class StageController : MonoBehaviour
         {
             lockImage.SetActive(false);
             button.interactable = true;
+
+            if (StageDataManager.instance.stageDatas.ContainsKey(sceneName))
+            {
+                if (StageDataManager.instance.stageDatas[sceneName])
+                {
+                    image.color = clearColor;
+                }
+            }
+            else
+            {
+                StageDataManager.instance.stageDatas.Add(sceneName, false);
+            }
         }
 
         button.onClick.AddListener(LoadScene);
