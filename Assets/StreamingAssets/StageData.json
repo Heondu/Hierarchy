@@ -10,11 +10,11 @@
         },
         {
             "sceneName": "Stage006",
-            "isClear": true
+            "isClear": false
         },
         {
             "sceneName": "Stage005",
-            "isClear": true
+            "isClear": false
         },
         {
             "sceneName": "Stage003",
@@ -22,11 +22,7 @@
         },
         {
             "sceneName": "Stage004",
-            "isClear": true
-        },
-        {
-            "sceneName": "Stage007",
-            "isClear": true
+            "isClear": false
         }
     ]
 }

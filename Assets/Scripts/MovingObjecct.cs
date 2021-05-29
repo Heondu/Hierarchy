@@ -12,12 +12,17 @@ public class MovingObjecct : SelectableObject, ISelectableObject
     private Vector3 currentMovePos;
     private float distance;
 
+    private SpriteRenderer icon;
+
     private void Start()
     {
+        icon = transform.Find("Icon").GetComponent<SpriteRenderer>();
+
         currentPos = transform.position;
         distance = Vector3.Distance(currentPos, currentPos + destination);
 
-        StartCoroutine("Move");
+        if (destination != Vector3.zero)
+            StartCoroutine("Move");
     }
 
     public void SetParent(Transform parent, bool isKeepParentTransform = false)
@@ -60,6 +65,7 @@ public class MovingObjecct : SelectableObject, ISelectableObject
         {
             int index = 0;
 
+            if (GameController.instance.IsStop == false) icon.flipX = false;
             dir = destination.normalized;
             for (; index < distance; index++)
             {
@@ -71,6 +77,7 @@ public class MovingObjecct : SelectableObject, ISelectableObject
             dir = Vector3.zero;
             yield return new WaitForSeconds(1f);
 
+            if (GameController.instance.IsStop == false) icon.flipX = true;
             dir = -destination.normalized;
             for (; index > 0; index--)
             {

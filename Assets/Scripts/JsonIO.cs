@@ -1,32 +1,34 @@
-using System.IO;
 using UnityEngine;
+using System.IO;
 
 public class JsonIO : MonoBehaviour
 {
-    private const string dataPath = "Assets/Resources/";
+    private static string path = Application.streamingAssetsPath + "/";
 
     public static void SaveToJson<T>(T t, string fileName)
     {
-        IsExists(dataPath + fileName + ".json");
+        if (IsExists(fileName) == false) CreateFile(fileName);
         string jsonString = JsonUtility.ToJson(t, true);
-        File.WriteAllText(dataPath + fileName + ".json", jsonString);
+        File.WriteAllText(path + fileName + ".json", jsonString);
     }
 
     public static T LoadFromJson<T>(string fileName)
     {
-        IsExists(dataPath + fileName + ".json");
-        string jsonString = File.ReadAllText(dataPath + fileName + ".json");
+        if (IsExists(fileName) == false) CreateFile(fileName);
+        string jsonString = File.ReadAllText(path + fileName + ".json");
         return JsonUtility.FromJson<T>(jsonString);
     }
 
-    private static void IsExists(string path)
+    private static bool IsExists(string fileName)
     {
-        if (File.Exists(path)) return;
-        else Create(path);
+        DirectoryInfo directoryInfo = new DirectoryInfo(path);
+        if (directoryInfo.Exists == false) directoryInfo.Create();
+        if (File.Exists(path + fileName + ".json")) return true;
+        else return false;
     }
 
-    private static void Create(string path)
+    private static void CreateFile(string fileName)
     {
-        File.Create(path).Close();
+        File.Create(path + fileName + ".json").Close();
     }
 }

@@ -21,9 +21,9 @@ public class FadeEffect : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(Fade(1, 0));
+            yield return StartCoroutine(Fade(1, 0.2f));
 
-            yield return StartCoroutine(Fade(0, 1));
+            yield return StartCoroutine(Fade(0.2f, 1));
         }
     }
 

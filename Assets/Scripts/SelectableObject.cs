@@ -12,7 +12,7 @@ public class SelectableObject : MonoBehaviour
 
     private void Awake()
     {
-        outline = transform.GetChild(0).gameObject;
+        outline = transform.Find("Outline").gameObject;
     }
 
     private void Update()

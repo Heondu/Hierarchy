@@ -13,8 +13,12 @@ public class RotatingObject : SelectableObject, ISelectableObject
     [SerializeField]
     private bool repeat = false;
 
+    private SpriteRenderer icon;
+
     private void Start()
     {
+        icon = transform.Find("Icon").GetComponent<SpriteRenderer>();
+
         sign = (int)Mathf.Sign(endAngle - startAngle);
         dir = new Vector3(-sign, 0, 0).normalized;
 
@@ -65,6 +69,7 @@ public class RotatingObject : SelectableObject, ISelectableObject
             }
             else
             {
+                if (GameController.instance.IsStop == false) icon.flipX = false;
                 dir = new Vector3(-sign, 0, 0).normalized;
                 float current = 0;
                 while (current < Mathf.Abs(endAngle - startAngle))
@@ -83,6 +88,7 @@ public class RotatingObject : SelectableObject, ISelectableObject
                 StartCoroutine("FixRotation");
                 yield return new WaitForSeconds(1f);
 
+                if (GameController.instance.IsStop == false) icon.flipX = true;
                 dir = new Vector3(sign, 0, 0).normalized;
                 while (current > 0)
                 {
